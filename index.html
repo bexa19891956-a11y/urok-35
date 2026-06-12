@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Домашнее задание — JavaScript</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f3f4f6;
+    color: #1a1a1a;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #111;
+  }
+
+  .cards {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    padding: 1.5rem;
+  }
+
+  .card h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    color: #111;
+  }
+
+  .card p {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  button:hover { background: #333; }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 99px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    margin-bottom: 0.6rem;
+  }
+
+  .result-box {
+    margin-top: 1rem;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #374151;
+    display: none;
+  }
+
+  .result-box.show { display: block; }
+  .result-box strong { color: #111; }
+
+  code {
+    background: #f3f4f6;
+    border-radius: 4px;
+    padding: 0 4px;
+    font-size: 0.8rem;
+    font-family: 'Courier New', monospace;
+    color: #374151;
+  }
+</style>
+</head>
+<body>
+
+<h1>📚 Домашнее задание — JavaScript</h1>
+
+<div class="cards">
+
+  <!-- ЗАДАНИЕ 1: Математические примеры -->
+  <div class="card">
+    <span class="badge">Задание 1</span>
+    <h2>Математические примеры</h2>
+    <p>Введите имя и возраст. Затем решите 5 примеров (+, −, ×, ÷, остаток). Все ответы запишутся в консоль разработчика.</p>
+    <button onclick="runTask1()">▶ Запустить</button>
+    <div class="result-box" id="res1"></div>
+  </div>
+
+  <!-- ЗАДАНИЕ 2: Среднее арифметическое X Y Z -->
+  <div class="card">
+    <span class="badge">Задание 2</span>
+    <h2>Среднее арифметическое X, Y, Z</h2>
+    <p>Введите три числа через <code>prompt()</code>. Программа найдёт среднее арифметическое и выведет через <code>alert()</code>.</p>
+    <button onclick="runTask2()">▶ Запустить</button>
+    <div class="result-box" id="res2"></div>
+  </div>
+
+  <!-- ЗАДАНИЕ 3: Возраст -->
+  <div class="card">
+    <span class="badge">Задание 3</span>
+    <h2>Проверка возраста</h2>
+    <p>Введите возраст. Программа выведет сообщение: молоды / работать / скоро пенсия / пенсионер.</p>
+    <button onclick="runTask3()">▶ Запустить</button>
+    <div class="result-box" id="res3"></div>
+  </div>
+
+  <!-- ЗАДАНИЕ 4: Время суток (switch) -->
+  <div class="card">
+    <span class="badge">Задание 4</span>
+    <h2>Время суток (switch)</h2>
+    <p>Введите час от 0 до 23. Программа определит время суток через оператор <code>switch</code>.</p>
+    <button onclick="runTask4()">▶ Запустить</button>
+    <div class="result-box" id="res4"></div>
+  </div>
+
+  <!-- ЗАДАНИЕ 5: Среднее из трёх -->
+  <div class="card">
+    <span class="badge">Задание 5</span>
+    <h2>Среднее из трёх чисел</h2>
+    <p>Введите 3 числа. Программа найдёт число, которое находится между наименьшим и наибольшим.</p>
+    <button onclick="runTask5()">▶ Запустить</button>
+    <div class="result-box" id="res5"></div>
+  </div>
+
+  <!-- ЗАДАНИЕ 6: Чек -->
+  <div class="card">
+    <span class="badge">Задание 6</span>
+    <h2>Случайный чек (receipt)</h2>
+    <p>Функция <code>receipt()</code> возвращает случайный набор товаров. Нажмите, чтобы сгенерировать чек.</p>
+    <button onclick="runTask6()">▶ Сгенерировать чек</button>
+    <div class="result-box" id="res6"></div>
+  </div>
+
+</div>
+
+<script>
+
+/* ============================================================
+   ЗАДАНИЕ 1 — Математические примеры
+   ============================================================ */
+function runTask1() {
+  const name = prompt("Введите ваше имя:");
+  if (!name) return;
+  const age = prompt("Введите ваш возраст:");
+  if (!age) return;
+
+  const examples = [
+    { a: 6,  b: 3, op: "+",  label: "сложение",            fn: (a,b) => a + b },
+    { a: 15, b: 7, op: "-",  label: "вычитание",            fn: (a,b) => a - b },
+    { a: 4,  b: 8, op: "*",  label: "умножение",            fn: (a,b) => a * b },
+    { a: 20, b: 4, op: "/",  label: "деление",              fn: (a,b) => a / b },
+    { a: 17, b: 5, op: "%",  label: "деление с остатком",   fn: (a,b) => a % b },
+  ];
+
+  const results = [];
+
+  for (let ex of examples) {
+    const correct = ex.fn(ex.a, ex.b);
+    const userRaw = prompt(`${name} (${age} лет), реши пример (${ex.label}):\n${ex.a} ${ex.op} ${ex.b} = ?`);
+    if (userRaw === null) return;
+    const userAns = Number(userRaw);
+    results.push({ ex, correct, userAns });
+  }
+
+  console.group(`📋 Результаты — ${name} (${age} лет)`);
+  let summary = "";
+  for (let r of results) {
+    const line = `${r.ex.a} ${r.ex.op} ${r.ex.b} = ${r.correct} (Ваш ответ: ${r.userAns})`;
+    console.log(line);
+    const ok = r.correct === r.userAns;
+    summary += `${r.ex.a} ${r.ex.op} ${r.ex.b} = ${r.correct} → Ваш ответ: <strong>${r.userAns}</strong> ${ok ? "✅" : "❌"}<br>`;
+  }
+  console.groupEnd();
+
+  alert(`${name}, вы решили все примеры!\nОткройте консоль разработчика (F12 → Console),\nчтобы увидеть все результаты.`);
+
+  const box = document.getElementById("res1");
+  box.innerHTML = `<strong>${name}, ${age} лет — результаты:</strong><br><br>${summary}`;
+  box.classList.add("show");
+}
+
+
+/* ============================================================
+   ЗАДАНИЕ 2 — Среднее арифметическое X, Y, Z
+   ============================================================ */
+function runTask2() {
+  let X = Number(prompt("Введите число X:"));
+  let Y = Number(prompt("Введите число Y:"));
+  let Z = Number(prompt("Введите число Z:"));
+
+  const avg = (X + Y + Z) / 3;
+  alert(`Среднее арифметическое X(${X}), Y(${Y}), Z(${Z}):\n= ${avg.toFixed(4)}`);
+
+  const box = document.getElementById("res2");
+  box.innerHTML = `X = <strong>${X}</strong>, Y = <strong>${Y}</strong>, Z = <strong>${Z}</strong><br>
+Среднее: (${X} + ${Y} + ${Z}) / 3 = <strong>${avg.toFixed(4)}</strong>`;
+  box.classList.add("show");
+}
+
+
+/* ============================================================
+   ЗАДАНИЕ 3 — Возраст (if/else)
+   ============================================================ */
+function runTask3() {
+  const age = Number(prompt("Введите ваш возраст:"));
+  let msg;
+
+  if (age >= 0 && age <= 18) {
+    msg = "Вы еще молоды, Вам нужно учиться";
+  } else if (age > 18 && age <= 50) {
+    msg = "Вам нужно работать";
+  } else if (age > 50 && age <= 59) {
+    msg = "Вам скоро на пенсию";
+  } else if (age > 59 && age <= 100) {
+    msg = "Вы пенсионер";
+  } else {
+    msg = "Что-то пошло не так";
+  }
+
+  alert(msg);
+
+  const box = document.getElementById("res3");
+  box.innerHTML = `Возраст: <strong>${age}</strong><br>Сообщение: <strong>${msg}</strong>`;
+  box.classList.add("show");
+}
+
+
+/* ============================================================
+   ЗАДАНИЕ 4 — Время суток через switch
+   ============================================================ */
+function runTask4() {
+  const hour = Number(prompt("Введите час (0–23):"));
+
+  let period;
+  switch (true) {
+    case (hour >= 0 && hour <= 6):   period = "ночи";   break;
+    case (hour >= 7 && hour <= 10):  period = "утра";   break;
+    case (hour >= 11 && hour <= 17): period = "дня";    break;
+    case (hour >= 18 && hour <= 23): period = "вечера"; break;
+    default: period = null;
+  }
+
+  let msg;
+  if (period) {
+    // Конвертация в 12-часовой формат для вывода
+    const h12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+    msg = `${h12} ${hour === 1 || hour === 21 ? "час" : "часа"} ${period}`;
+  } else {
+    msg = "Некорректное время";
+  }
+
+  alert(msg);
+
+  const box = document.getElementById("res4");
+  box.innerHTML = `Введено: <strong>${hour}:00</strong><br>Результат: <strong>${msg}</strong>`;
+  box.classList.add("show");
+}
+
+
+/* ============================================================
+   ЗАДАНИЕ 5 — Среднее из трёх (не среднее арифметическое,
+   а число между min и max)
+   ============================================================ */
+function runTask5() {
+  const a = Number(prompt("Введите первое число:"));
+  const b = Number(prompt("Введите второе число:"));
+  const c = Number(prompt("Введите третье число:"));
+
+  const sorted = [a, b, c].sort((x, y) => x - y);
+  const mid = sorted[1];
+
+  alert(`Среднее число (между наименьшим и наибольшим): ${mid}`);
+
+  const box = document.getElementById("res5");
+  box.innerHTML = `Числа: <strong>${a}, ${b}, ${c}</strong><br>
+Отсортировано: ${sorted[0]} &lt; <strong>${mid}</strong> &lt; ${sorted[2]}<br>
+Среднее: <strong>${mid}</strong>`;
+  box.classList.add("show");
+}
+
+
+/* ============================================================
+   ЗАДАНИЕ 6 — Функция receipt() + вывод чека
+   ============================================================ */
+function receipt() {
+  const arrayReceipt = [
+    {
+      'Lavash':   { info: 'Big Cheese', price: 15000 },
+      'Hot-dog':  { info: 'mini',       price: 8500  },
+      'Cola':     { info: '1.5 L',      price: 9000  }
+    },
+    {
+      'Milk':   { info: '1 L',  price: 8500 },
+      'Sugar':  { info: '1 kg', price: 7000 }
+    },
+    {
+      'Cola':   { info: '1 L',   price: 6500 },
+      'Fanta':  { info: '1.5 L', price: 9000 },
+      'Lipton': { info: '1.2 L', price: 5000 },
+      'Nestle': { info: '10 L',  price: 8500 }
+    }
+  ];
+  const count = Math.floor(Math.random() * arrayReceipt.length);
+  return arrayReceipt[count];
+}
+
+function runTask6() {
+  const basket = receipt();
+  console.log("🛒 Сгенерированный чек:", basket);
+
+  let rows = "";
+  let total = 0;
+
+  for (const [name, item] of Object.entries(basket)) {
+    total += item.price;
+    rows += `
+      <tr>
+        <td style="padding:4px 8px 4px 0">${name}</td>
+        <td style="padding:4px 8px;color:#6b7280;font-size:0.8rem">${item.info}</td>
+        <td style="padding:4px 0;text-align:right;font-weight:500">${item.price.toLocaleString()} сум</td>
+      </tr>`;
+  }
+
+  const box = document.getElementById("res6");
+  box.innerHTML = `
+    <strong>🧾 Чек:</strong><br><br>
+    <table style="width:100%;border-collapse:collapse;font-size:0.85rem">
+      ${rows}
+      <tr style="border-top:1px solid #e5e7eb">
+        <td colspan="2" style="padding-top:8px;font-weight:600">Итого</td>
+        <td style="padding-top:8px;text-align:right;font-weight:600">${total.toLocaleString()} сум</td>
+      </tr>
+    </table>`;
+  box.classList.add("show");
+}
+
+</script>
+</body>
+</html>
